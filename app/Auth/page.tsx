@@ -26,7 +26,7 @@ export default function Auth() {
                 <div className="flex justify-center">
                     <div className="bg-black bg-opacity-70 p-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
                         <h2 className="text-white text-4xl mb-8 font-semibold">
-                            {variant === 'login' ? 'Sign In' : 'Sign Up'}
+                            {variant === 'login' ? 'Sign In' : 'Register'}
                         </h2>
                         <div className="flex flex-col gap-4">
                             {variant === 'register' && (
@@ -41,12 +41,12 @@ export default function Auth() {
                                 setPassword(e.target.value);
                             }} value={password} type="password" />
                             <Button type="button">
-                                Login
+                                {variant === 'login' ? 'Login' : 'Sign Up'}
                             </Button>
                             <p className="text-neutral-500 mt-12">
-                                First time using Netflix?
+                                {variant === 'login' ? 'New to Netflix?' : 'Already have an account?'}
                                 <span className="text-white ml-1 hover:underline cursor-pointer" onClick={toggleVariant}>
-                                    Create an account.
+                                    {variant === 'login' ? 'Create an account.' : 'Login'}
                                 </span>
                             </p>
                         </div>
