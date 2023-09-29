@@ -4,6 +4,7 @@ import Input from "@/components/Input/input";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Button from "@/components/Buttons/button";
+import axios from "axios";
 
 export default function Auth() {
     const [email, setEmail] = useState('');
@@ -16,6 +17,18 @@ export default function Auth() {
 
         console.log(variant)
     }, [variant])
+
+    const register = useCallback(async () => {
+        try {
+            await axios.post('/api/auth/register', {
+                email,
+                name,
+                password
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    }, []);
 
     return (
         <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
