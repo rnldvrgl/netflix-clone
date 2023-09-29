@@ -1,7 +1,8 @@
-const Input = ({ type = "text" }) => {
+const Input = ({ type = "text", placeholder = "" }) => {
     return (
-        <div>
+        <div className="relative">
             <input
+                id="email"
                 type={type}
                 className={`
                 block
@@ -18,7 +19,11 @@ const Input = ({ type = "text" }) => {
                 focus:right-0
                 peer
                 `}
+                placeholder={placeholder}
             />
+            <label htmlFor="email">
+
+            </label>
         </div>
     );
 }
