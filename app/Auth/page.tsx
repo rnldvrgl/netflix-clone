@@ -19,12 +19,11 @@ export default function Auth() {
     const [isLoading, setIsLoading] = useState(false);
     const [variant, setVariant] = useState<Variant>('login');
 
-    // useEffect(() => {
-    //     if (session?.status === 'authenticated') {
-    //         router.push('/')
-    //     }
-    // }, [session?.status, router]);
-
+    useEffect(() => {
+        if (session?.status === 'authenticated') {
+            router.push('/')
+        }
+    }, [session?.status, router]);
 
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
