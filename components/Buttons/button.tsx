@@ -7,11 +7,13 @@ interface ButtonProps {
     type: "button" | "submit" | "reset";
     disabled?: boolean;
     loading?: boolean;
+    onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, icon, className, type, disabled, loading }) => {
+const Button: React.FC<ButtonProps> = ({ children, icon, className, type, disabled, loading, onClick }) => {
     return (
         <button
+            onClick={onClick}
             type={type}
             disabled={disabled}
             className={`

@@ -28,7 +28,7 @@ export default function Auth() {
         } catch (error) {
             console.log(error)
         }
-    }, []);
+    }, [email, name, password]);
 
     return (
         <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
@@ -53,7 +53,13 @@ export default function Auth() {
                             <Input label="Password" id="password" onChange={(e: any) => {
                                 setPassword(e.target.value);
                             }} value={password} type="password" />
-                            <Button type="button">
+                            <Button type="button" onClick={() => {
+                                if (variant === 'login') {
+                                    console.log('login')
+                                } else {
+                                    register();
+                                }
+                            }}>
                                 {variant === 'login' ? 'Login' : 'Sign Up'}
                             </Button>
                             <p className="text-neutral-500 mt-12">
