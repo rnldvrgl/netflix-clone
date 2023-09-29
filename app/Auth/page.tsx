@@ -56,15 +56,14 @@ export default function Auth() {
                 redirect: false
             })).then((callback) => {
                 if (callback?.error) {
-                    console.log(callback.error)
-                    // toast.error(callback.error);
+                    toast.error(callback.error);
                 }
 
-                if (!callback?.error) {
+                if (callback?.ok && !callback?.error) {
                     router.push('/');
                 }
             }).catch((error) => {
-                // toast.error(error.message);
+                toast.error(error.message);
             }).finally(() => setIsLoading(false));
             console.log(data)
         }
@@ -75,11 +74,10 @@ export default function Auth() {
                 redirect: false
             }).then((callback) => {
                 if (callback?.error) {
-                    console.log(callback.error)
-                    // toast.error(callback.error);
+                    toast.error(callback.error);
                 }
 
-                if (!callback?.error) {
+                if (callback?.ok && !callback?.error) {
                     router.push('/');
                 }
             }).finally(() => setIsLoading(false));
