@@ -1,21 +1,39 @@
+'use client';
+
 import React from "react";
+import clsx from "clsx";
+import {
+    FieldErrors,
+    FieldValues,
+    UseFormRegister
+} from "react-hook-form";
 
 interface InputProps {
-    id: string;
-    onChange: any;
-    value: string;
     label: string;
+    id: string;
     type?: string;
+    required?: boolean;
+    register: UseFormRegister<FieldValues>,
+    errors: FieldErrors
+    disabled?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
+const Input: React.FC<InputProps> = ({
+    label,
+    id,
+    register,
+    required,
+    errors,
+    type = 'text',
+    disabled
+}) => {
     return (
         <div className="relative">
             <input
-                onChange={onChange}
-                value={value}
                 id={id}
                 type={type}
+                autoComplete={id}
+                {...register(id, { required })}
                 className={`
                 block
                 rounded-md
@@ -35,7 +53,7 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
             />
             <label
                 htmlFor={id}
-                className={`
+                className={clsx(`
                 absolute
                 text-md
                 text-zinc-400
@@ -50,8 +68,10 @@ const Input: React.FC<InputProps> = ({ id, onChange, value, label, type }) => {
                 peer-placeholder-shown:scale-100
                 peer-placeholder-shown:translate-y-0
                 peer-focus:scale-75
-                peer-focus:-translate-y-3
-                `}
+                peer-focus:-translate-y-3`,
+                    errors[id] && 'focus:ring-rose-500',
+                    disabled && 'opacity-50 cursor-default'
+                )}
             >
                 {label}
             </label>

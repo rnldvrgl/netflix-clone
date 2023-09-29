@@ -1,19 +1,30 @@
 "use client"
 
 import Input from "@/components/Input/input";
-import { useState, useCallback } from "react";
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import { BsGithub, BsGoogle } from 'react-icons/bs';
+import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/Buttons/button";
 import axios from "axios";
-import { signIn } from "next-auth/react"
+import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
+
+type Variant = 'login' | 'register';
 
 export default function Auth() {
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [variant, setVariant] = useState<'login' | 'register'>('login');
+    const session = useSession();
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(false);
+    const [variant, setVariant] = useState<Variant>('login');
+
+    // useEffect(() => {
+    //     if (session?.status === 'authenticated') {
+    //         router.push('/')
+    //     }
+    // }, [session?.status, router]);
+
 
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
@@ -21,32 +32,60 @@ export default function Auth() {
         console.log(variant)
     }, [variant])
 
-    const register = useCallback(async () => {
-        try {
-            await axios.post('/api/auth/register', {
-                email,
-                name,
-                password
-            });
-        } catch (error) {
-            console.log(error)
+
+    const {
+        register,
+        handleSubmit,
+        formState: {
+            errors,
         }
-    }, [email, name, password]);
-
-    const login = useCallback(async () => {
-        try {
-            await signIn('credentials', {
-                email,
-                password,
-                redirect: false,
-                callbackUrl: '/'
-            });
-
-            router.push('/');
-        } catch (error) {
-
+    } = useForm<FieldValues>({
+        defaultValues: {
+            name: '',
+            email: '',
+            password: ''
         }
-    }, [email, password, router]);
+    });
+
+    const onSubmit: SubmitHandler<FieldValues> = (data) => {
+        setIsLoading(true);
+
+        if (variant === 'register') {
+            axios.post('/api/auth/register', data).then(() => signIn('credentials', {
+                ...data,
+                redirect: false
+            })).then((callback) => {
+                if (callback?.error) {
+                    console.log(callback.error)
+                    // toast.error(callback.error);
+                }
+
+                if (!callback?.error) {
+                    router.push('/');
+                }
+            }).catch((error) => {
+                // toast.error(error.message);
+            }).finally(() => setIsLoading(false));
+            console.log(data)
+        }
+
+        if (variant === 'login') {
+            signIn('credentials', {
+                ...data,
+                redirect: false
+            }).then((callback) => {
+                if (callback?.error) {
+                    console.log(callback.error)
+                    // toast.error(callback.error);
+                }
+
+                if (!callback?.error) {
+                    router.push('/');
+                }
+            }).finally(() => setIsLoading(false));
+        }
+
+    }
 
     return (
         <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
@@ -59,21 +98,36 @@ export default function Auth() {
                         <h2 className="text-white text-4xl mb-8 font-semibold">
                             {variant === 'login' ? 'Sign In' : 'Register'}
                         </h2>
-                        <div className="flex flex-col gap-4">
+                        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} >
                             {variant === 'register' && (
-                                <Input label="Username" id="username" onChange={(e: any) => {
-                                    setName(e.target.value);
-                                }} value={name} />
+                                <Input
+                                    disabled={isLoading}
+                                    register={register}
+                                    errors={errors}
+                                    required
+                                    id="username"
+                                    label="Username"
+                                />
                             )}
-                            <Input label="Email" id="email" type="email" onChange={(e: any) => {
-                                setEmail(e.target.value);
-                            }} value={email} />
-                            <Input label="Password" id="password" onChange={(e: any) => {
-                                setPassword(e.target.value);
-                            }} value={password} type="password" />
-                            <Button type="button" onClick={() => {
-                                { variant === 'login' ? login() : register() }
-                            }}>
+                            <Input
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                required
+                                id="email"
+                                label="Email address"
+                                type="email"
+                            />
+                            <Input
+                                disabled={isLoading}
+                                register={register}
+                                errors={errors}
+                                required
+                                id="password"
+                                label="Password"
+                                type="password"
+                            />
+                            <Button type="submit" disabled={isLoading}>
                                 {variant === 'login' ? 'Login' : 'Sign Up'}
                             </Button>
                             <p className="text-neutral-500 mt-12">
@@ -82,7 +136,7 @@ export default function Auth() {
                                     {variant === 'login' ? 'Create an account.' : 'Login'}
                                 </span>
                             </p>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
