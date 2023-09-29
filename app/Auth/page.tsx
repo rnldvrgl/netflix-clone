@@ -105,7 +105,7 @@ export default function Auth() {
                                     register={register}
                                     errors={errors}
                                     required
-                                    id="username"
+                                    id="name"
                                     label="Username"
                                 />
                             )}
