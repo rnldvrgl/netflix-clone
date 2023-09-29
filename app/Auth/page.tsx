@@ -6,12 +6,14 @@ import Image from "next/image";
 import Button from "@/components/Buttons/button";
 import axios from "axios";
 import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 export default function Auth() {
     const [email, setEmail] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [variant, setVariant] = useState<'login' | 'register'>('login');
+    const router = useRouter();
 
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
@@ -39,10 +41,12 @@ export default function Auth() {
                 redirect: false,
                 callbackUrl: '/'
             });
+
+            router.push('/');
         } catch (error) {
 
         }
-    }, [email, password]);
+    }, [email, password, router]);
 
     return (
         <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
