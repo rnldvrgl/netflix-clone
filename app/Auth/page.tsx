@@ -2,7 +2,8 @@
 
 import Input from "@/components/Input/input";
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { BsGithub, BsGoogle } from 'react-icons/bs';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/Buttons/button";
@@ -10,6 +11,7 @@ import axios from "axios";
 import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import AuthSocialButton from "@/components/Buttons/AuthSocialButton";
 
 type Variant = 'login' | 'register';
 
@@ -78,7 +80,22 @@ export default function Auth() {
                 }
             }).finally(() => setIsLoading(false));
         }
+    }
 
+    const socialAction = (action: string) => {
+        setIsLoading(true);
+
+        signIn(action, { redirect: false })
+            .then((callback) => {
+                if (callback?.error) {
+                    toast.error(callback.error);
+                }
+
+                if (callback?.ok && !callback?.error) {
+                    router.push('/')
+                }
+            })
+            .finally(() => setIsLoading(false));
     }
 
     return (
@@ -124,6 +141,16 @@ export default function Auth() {
                             <Button type="submit" disabled={isLoading}>
                                 {variant === 'login' ? 'Login' : 'Sign Up'}
                             </Button>
+                            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                                <AuthSocialButton
+                                    icon={FcGoogle}
+                                    onClick={() => socialAction('google')}
+                                />
+                                <AuthSocialButton
+                                    icon={FaGithub}
+                                    onClick={() => socialAction('github')}
+                                />
+                            </div>
                             <p className="text-neutral-500 mt-12">
                                 {variant === 'login' ? 'New to Netflix?' : 'Already have an account?'}
                                 <span className="text-white ml-1 hover:underline cursor-pointer" onClick={toggleVariant}>

@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply text-white;
-}
 
 body {
   @apply bg-zinc-900 h-full overflow-x-hidden;
