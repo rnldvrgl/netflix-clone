@@ -27,10 +27,7 @@ export default function Auth() {
 
     const toggleVariant = useCallback(() => {
         setVariant((currentVariant) => currentVariant === 'login' ? 'register' : 'login');
-
-        console.log(variant)
-    }, [variant])
-
+    }, [])
 
     const {
         register,
