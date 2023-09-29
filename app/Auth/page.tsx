@@ -5,6 +5,7 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import Button from "@/components/Buttons/button";
 import axios from "axios";
+import { signIn } from "next-auth/react"
 
 export default function Auth() {
     const [email, setEmail] = useState('');
@@ -30,6 +31,19 @@ export default function Auth() {
         }
     }, [email, name, password]);
 
+    const login = useCallback(async () => {
+        try {
+            await signIn('credentials', {
+                email,
+                password,
+                redirect: false,
+                callbackUrl: '/'
+            });
+        } catch (error) {
+
+        }
+    }, [email, password]);
+
     return (
         <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
             <div className="bg-black w-full h-full lg:bg-opacity-50">
@@ -54,11 +68,7 @@ export default function Auth() {
                                 setPassword(e.target.value);
                             }} value={password} type="password" />
                             <Button type="button" onClick={() => {
-                                if (variant === 'login') {
-                                    console.log('login')
-                                } else {
-                                    register();
-                                }
+                                { variant === 'login' ? login() : register() }
                             }}>
                                 {variant === 'login' ? 'Login' : 'Sign Up'}
                             </Button>
