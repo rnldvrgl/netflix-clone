@@ -23,7 +23,7 @@ export default function Auth() {
 
     useEffect(() => {
         if (session?.status === 'authenticated') {
-            router.push('/')
+            router.push('/browse')
         }
     }, [session?.status, router]);
 
@@ -58,12 +58,11 @@ export default function Auth() {
                 }
 
                 if (callback?.ok && !callback?.error) {
-                    router.push('/');
+                    router.push('/browse');
                 }
             }).catch((error) => {
                 toast.error(error.message);
             }).finally(() => setIsLoading(false));
-            console.log(data)
         }
 
         if (variant === 'login') {
@@ -76,7 +75,8 @@ export default function Auth() {
                 }
 
                 if (callback?.ok && !callback?.error) {
-                    router.push('/');
+                    toast.success("logged in");
+                    router.push('/browse');
                 }
             }).finally(() => setIsLoading(false));
         }
@@ -92,7 +92,8 @@ export default function Auth() {
                 }
 
                 if (callback?.ok && !callback?.error) {
-                    router.push('/')
+                    toast.success("logged in");
+                    router.push('/browse')
                 }
             })
             .finally(() => setIsLoading(false));
