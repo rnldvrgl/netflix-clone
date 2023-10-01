@@ -1,15 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import serverAuth from "@/libs/serverAuth";
 
-import serverAuth from "@/lib/serverAuth";
-
-export default async function GET(
-	request: NextApiRequest,
-	res: NextApiResponse
-) {
+export default async function GET(req: NextApiRequest, res: NextApiResponse) {
 	try {
-		const { currentUser } = await serverAuth(request);
+		const { currentUser } = await serverAuth(req, res);
+
+		return res.status(200).json(currentUser);
 	} catch (error) {
 		console.log(error);
-		res.status(400).end();
+		return res.status(500).end();
 	}
 }
