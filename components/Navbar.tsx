@@ -2,6 +2,9 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 // import { BellIcon, MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { FaBell } from 'react-icons/fa';
+import { FaMagnifyingGlass, FaChevronDown } from 'react-icons/fa6';
+
 
 import AccountMenu from '@/components/AccountMenu';
 import MobileMenu from '@/components/MobileMenu';
@@ -52,9 +55,9 @@ const Navbar: React.FC<NavbarProps> = ({
     return (
         <nav className="w-full fixed z-40">
             <div className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${showBackground ? 'bg-zinc-900 bg-opacity-90' : ''}`}>
-                <div className="h-4 lg:h-7" >
-                    <Image src="/images/logo.png" layout="responsive" alt="Logo" />
-                </div>
+
+                <Image src="/images/logo.png" width={100} height={100} className="h-4 lg:h-7" alt="Logo" />
+
                 <div className="flex-row ml-8 gap-7 hidden lg:flex">
                     <NavbarItem label="Home" active />
                     <NavbarItem label="Series" />
@@ -65,21 +68,21 @@ const Navbar: React.FC<NavbarProps> = ({
                 </div>
                 <div onClick={toggleMobileMenu} className="lg:hidden flex flex-row items-center gap-2 ml-8 cursor-pointer relative">
                     <p className="text-white text-sm">Browse</p>
-                    {/* <ChevronDownIcon className={`w-4 text-white fill-white transition ${showMobileMenu ? 'rotate-180' : 'rotate-0'}`} /> */}
+                    <FaChevronDown className={`w-4 text-white fill-white transition ${showMobileMenu ? 'rotate-180' : 'rotate-0'}`} />
                     <MobileMenu visible={showMobileMenu} />
                 </div>
-                <div className="flex flex-row ml-auto gap-7 items-center border border-rose-300">
+                <div className="flex flex-row ml-auto gap-7 items-center">
                     <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
-                        {/* <MagnifyingGlassIcon className="w-6" /> */}
+                        <FaMagnifyingGlass className="w-6" />
                     </div>
                     <div className="text-gray-200 hover:text-gray-300 cursor-pointer transition">
-                        {/* <BellIcon className="w-6" /> */}
+                        <FaBell className="w-6" />
                     </div>
                     <div onClick={toggleAccountMenu} className="flex flex-row items-center gap-2 cursor-pointer relative">
                         <div className="w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden">
-                            {/* <img src="/images/default-blue.png" alt="" /> */}
+                            <Image src="/images/default-blue.png" width={100} height={100} alt="" />
                         </div>
-                        {/* <ChevronDownIcon className={`w-4 text-white fill-white transition ${showAccountMenu ? 'rotate-180' : 'rotate-0'}`} /> */}
+                        <FaChevronDown className={`w-4 text-white fill-white transition ${showAccountMenu ? 'rotate-180' : 'rotate-0'}`} />
                         <AccountMenu username={currentUser.name} visible={showAccountMenu} />
                     </div>
                 </div>
