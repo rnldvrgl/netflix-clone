@@ -8,7 +8,6 @@ export default async function UsersLayout({
     children: React.ReactNode,
 }) {
     const currentUser = await getCurrentUser();
-
     return (
         //// @ts-expect-error Server Component
         <>
