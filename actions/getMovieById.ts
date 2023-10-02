@@ -1,24 +1,24 @@
 import prisma from "@/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
-const getMovies = async () => {
+const getMovie = async (movieId: string) => {
 	try {
 		const currentUser = await getCurrentUser();
 
-		if (!currentUser) {
+		if (!currentUser?.email) {
 			return null;
 		}
 
-		const movies = await prisma.movie.findMany();
+		const movie = await prisma.movie.findUnique({
+			where: {
+				id: movieId,
+			},
+		});
 
-		if (!movies) {
-			return null;
-		}
-
-		return movies;
+		return movie;
 	} catch (error: any) {
 		return null;
 	}
 };
 
-export default getMovies;
+export default getMovie;

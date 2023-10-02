@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { useRouter } from 'next/navigation';
 
@@ -11,9 +11,14 @@ interface PlayButtonProps {
 const PlayButton: React.FC<PlayButtonProps> = ({ movieId }) => {
     const router = useRouter();
 
+
+    const handleClick = useCallback(() => {
+        router.push(`/browse/watch/${movieId}`)
+    }, [movieId, router]);
+
     return (
         <button
-            onClick={() => router.push(`/watch/${movieId}`)}
+            onClick={handleClick}
             className="
         bg-white 
         rounded-md 
