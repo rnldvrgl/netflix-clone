@@ -1,7 +1,7 @@
 import prisma from "@/libs/prismadb";
 import getCurrentUser from "./getCurrentUser";
 
-const getMovie = async (movieId: string) => {
+const getMovieById = async (movieId: string) => {
 	try {
 		const currentUser = await getCurrentUser();
 
@@ -21,4 +21,4 @@ const getMovie = async (movieId: string) => {
 	}
 };
 
-export default getMovie;
+export default getMovieById;

@@ -6,8 +6,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { PlayIcon } from "@heroicons/react/24/solid";
 
 import { MovieInterface } from "@/types";
-// import FavoriteButton from '@/components/FavoriteButton';
-// import useInfoModalStore from '@/hooks/useInfoModalStore';
+// import FavoriteButton from '@/components/Buttons/FavoriteButton';
 import Image from "next/image";
 
 interface MovieCardProps {
@@ -16,7 +15,6 @@ interface MovieCardProps {
 
 const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
     const router = useRouter();
-    // const { openModal } = useInfoModalStore();
 
     const redirectToWatch = useCallback(
         () => router.push(`/browse/watch/${data.id}`),
@@ -32,18 +30,18 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                 alt="Movie"
                 draggable={false}
                 className="
-            cursor-pointer
-            object-cover
-            transition
-            duration
-            shadow-xl
-            rounded-md
-            group-hover:opacity-90
-            sm:group-hover:opacity-0
-            delay-300
-            w-full
-            h-[12vw]
-      "
+                    cursor-pointer
+                    object-cover
+                    transition
+                    duration
+                    shadow-xl
+                    rounded-md
+                    group-hover:opacity-90
+                    sm:group-hover:opacity-0
+                    delay-300
+                    w-full
+                    h-[12vw]
+                "
             />
             <div
                 className="
@@ -104,7 +102,6 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
                             <PlayIcon className="text-black w-4 lg:w-6" />
                         </div>
                         {/* <FavoriteButton movieId={data.id} /> */}
-                        {/* onClick={() => openModal(data?.id)}  */}
                         <div className="cursor-pointer ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
                             <ChevronDownIcon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
                         </div>

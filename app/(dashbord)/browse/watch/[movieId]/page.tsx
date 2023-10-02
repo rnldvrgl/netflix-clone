@@ -1,6 +1,6 @@
 
 import React from 'react';
-import getMovie from '@/actions/getMovieById';
+import getMovieById from '@/actions/getMovieById';
 import ReturnButton from '@/components/Buttons/ReturnButton';
 
 interface IParams {
@@ -8,7 +8,7 @@ interface IParams {
 }
 
 const Watch = async ({ params }: { params: IParams }) => {
-    const movieData = await getMovie(params.movieId);
+    const movieData = await getMovieById(params.movieId);
 
     return (
         <div className="h-screen w-screen bg-black">

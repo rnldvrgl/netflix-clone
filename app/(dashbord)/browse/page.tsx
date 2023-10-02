@@ -4,18 +4,16 @@ import getMovies from "@/actions/getMovies";
 import getRandomMovies from "@/actions/getRandomMovies";
 import Billboard from "@/components/Billboard";
 import MovieList from "@/components/MovieList";
-import getCurrentUser from "@/actions/getCurrentUser";
-
 import Navbar from "@/components/Navbar";
 
 export default async function Home() {
-  const currentUser = await getCurrentUser();
   const randomVideo = await getRandomMovies();
   const movies = await getMovies();
   const favorites = await getFavorites();
+
   return (
     <>
-      <Navbar currentUser={currentUser!} />
+      <Navbar />
       <Billboard randomVideo={randomVideo!} />
       <div className="pb-40">
         <MovieList title="Trending Now" data={movies!} />

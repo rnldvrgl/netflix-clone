@@ -6,19 +6,11 @@ import { BellIcon, MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react
 import AccountMenu from '@/components/AccountMenu';
 import MobileMenu from '@/components/MobileMenu';
 import NavbarItem from '@/components/NavbarItem';
-import { User } from "@prisma/client"
 import Image from 'next/image';
-
-
-interface NavbarProps {
-    currentUser: User
-}
 
 const TOP_OFFSET = 66;
 
-const Navbar: React.FC<NavbarProps> = ({
-    currentUser
-}) => {
+const Navbar = () => {
 
     const [showAccountMenu, setShowAccountMenu] = useState(false);
     const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -80,7 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({
                             <Image src="/images/default-blue.png" width={100} height={100} alt="" />
                         </div>
                         <ChevronDownIcon className={`w-4 text-white fill-white transition ${showAccountMenu ? 'rotate-180' : 'rotate-0'}`} />
-                        <AccountMenu username={currentUser.name} visible={showAccountMenu} />
+                        <AccountMenu visible={showAccountMenu} />
                     </div>
                 </div>
             </div>
