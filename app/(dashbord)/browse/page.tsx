@@ -8,8 +8,8 @@ import Navbar from "@/components/Navbar";
 
 export default async function Home() {
   const { data: movies = [] } = useMovieList();
-  // const { data: favorites = [] } = useFavorites();
-  // const { isOpen, closeModal } = useInfoModalStore();
+  const { data: favorites = [] } = useFavorites();
+  const { isOpen, closeModal } = useInfoModalStore();
 
   return (
     <>
