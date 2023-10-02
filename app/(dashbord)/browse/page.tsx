@@ -1,23 +1,24 @@
 
-import getFavorites from "@/actions/getFavorites";
-import getMovies from "@/actions/getMovies";
-import getRandomMovies from "@/actions/getRandomMovies";
+import useMovieList from '@/hooks/useMovieList';
+// import useFavorites from '@/hooks/useFavorites';
+// import useInfoModalStore from '@/hooks/useInfoModalStore';
 import Billboard from "@/components/Billboard";
 import MovieList from "@/components/MovieList";
 import Navbar from "@/components/Navbar";
 
 export default async function Home() {
-  const randomVideo = await getRandomMovies();
-  const movies = await getMovies();
-  const favorites = await getFavorites();
+  const { data: movies = [] } = useMovieList();
+  // const { data: favorites = [] } = useFavorites();
+  // const { isOpen, closeModal } = useInfoModalStore();
 
   return (
     <>
+      {/* <InfoModal visible={isOpen} onClose={closeModal} /> */}
       <Navbar />
-      <Billboard randomVideo={randomVideo!} />
+      <Billboard />
       <div className="pb-40">
-        <MovieList title="Trending Now" data={movies!} />
-        <MovieList title="My List" data={favorites!} />
+        <MovieList title="Trending Now" data={movies} />
+        {/* <MovieList title="My List" data={favorites} /> */}
       </div>
     </>
   )
