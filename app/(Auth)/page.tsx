@@ -100,66 +100,64 @@ export default function Auth() {
     }
 
     return (
-        <div className="relative h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
-            <div className="bg-black w-full h-full lg:bg-opacity-50">
-                <nav className="px-12 py-5">
+        <div className="relative flex justify-center items-center h-full w-full bg-netflix bg-no-repeat bg-center bg-fixed bg-cover">
+            <div className="bg-black w-full h-full lg:bg-opacity-50 flex items-center justify-center">
+                <nav className="absolute top-0 left-0 px-12 py-5 hidden lg:block">
                     <Image src="/images/logo.png" width={100} height={30} alt="Netflix Logo" />
                 </nav>
-                <div className="flex justify-center">
-                    <div className="bg-black bg-opacity-70 p-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
-                        <h2 className="text-white text-4xl mb-8 font-semibold">
-                            {variant === 'login' ? 'Sign In' : 'Register'}
-                        </h2>
-                        <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} >
-                            {variant === 'register' && (
-                                <Input
-                                    disabled={isLoading}
-                                    register={register}
-                                    errors={errors}
-                                    required
-                                    id="name"
-                                    label="Username"
-                                />
-                            )}
+                <div className="bg-black bg-opacity-70 p-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
+                    <h2 className="text-white text-4xl mb-8 font-semibold">
+                        {variant === 'login' ? 'Sign In' : 'Register'}
+                    </h2>
+                    <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)} >
+                        {variant === 'register' && (
                             <Input
                                 disabled={isLoading}
                                 register={register}
                                 errors={errors}
                                 required
-                                id="email"
-                                label="Email address"
-                                type="email"
+                                id="name"
+                                label="Username"
                             />
-                            <Input
-                                disabled={isLoading}
-                                register={register}
-                                errors={errors}
-                                required
-                                id="password"
-                                label="Password"
-                                type="password"
+                        )}
+                        <Input
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            required
+                            id="email"
+                            label="Email address"
+                            type="email"
+                        />
+                        <Input
+                            disabled={isLoading}
+                            register={register}
+                            errors={errors}
+                            required
+                            id="password"
+                            label="Password"
+                            type="password"
+                        />
+                        <Button type="submit" disabled={isLoading}>
+                            {variant === 'login' ? 'Login' : 'Sign Up'}
+                        </Button>
+                        <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+                            <AuthSocialButton
+                                icon={FcGoogle}
+                                onClick={() => socialAction('google')}
                             />
-                            <Button type="submit" disabled={isLoading}>
-                                {variant === 'login' ? 'Login' : 'Sign Up'}
-                            </Button>
-                            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
-                                <AuthSocialButton
-                                    icon={FcGoogle}
-                                    onClick={() => socialAction('google')}
-                                />
-                                <AuthSocialButton
-                                    icon={FaGithub}
-                                    onClick={() => socialAction('github')}
-                                />
-                            </div>
-                            <p className="text-neutral-500 mt-12">
-                                {variant === 'login' ? 'New to Netflix?' : 'Already have an account?'}
-                                <span className="text-white ml-1 hover:underline cursor-pointer" onClick={toggleVariant}>
-                                    {variant === 'login' ? 'Create an account.' : 'Login'}
-                                </span>
-                            </p>
-                        </form>
-                    </div>
+                            <AuthSocialButton
+                                icon={FaGithub}
+                                onClick={() => socialAction('github')}
+                            />
+                        </div>
+                        <p className="text-neutral-500 mt-12">
+                            {variant === 'login' ? 'New to Netflix?' : 'Already have an account?'}
+                            <span className="text-white ml-1 hover:underline cursor-pointer" onClick={toggleVariant}>
+                                {variant === 'login' ? 'Create an account.' : 'Login'}
+                            </span>
+                        </p>
+                    </form>
                 </div>
             </div>
         </div>
