@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 import serverAuth from "@/libs/serverAuth";
 
@@ -6,13 +6,11 @@ interface IParams {
 	movieId?: string;
 }
 
-export async function GET(req: NextRequest, { params }: { params: IParams }) {
+export async function GET({ params }: { params: IParams }) {
 	try {
-		// await serverAuth();
+		await serverAuth();
 
 		const { movieId } = params;
-		// const movieId = req.nextUrl.searchParams.get("movieId");
-		// const movieId = "651a23704b286c5b09369dfa";
 
 		if (typeof movieId !== "string") {
 			throw new Error("Invalid Id");
