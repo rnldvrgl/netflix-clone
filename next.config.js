@@ -20,6 +20,9 @@ const nextConfig = {
                 hostname: 'commondatastorage.googleapis.com',
             },
         ],
+        experimental: {
+            serverActions: true,
+        },
     },
 }
 
