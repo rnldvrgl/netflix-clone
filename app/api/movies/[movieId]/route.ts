@@ -10,9 +10,8 @@ export async function GET(req: NextRequest, { params }: { params: IParams }) {
 	try {
 		// await serverAuth();
 
-		// const { movieId } = params;
-		const movieId = req.nextUrl.searchParams.get("movieId");
-		console.log(movieId);
+		const { movieId } = params;
+		// const movieId = req.nextUrl.searchParams.get("movieId");
 		// const movieId = "651a23704b286c5b09369dfa";
 
 		if (typeof movieId !== "string") {

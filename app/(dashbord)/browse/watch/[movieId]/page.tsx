@@ -1,23 +1,25 @@
+"use client"
 
 import React from 'react';
-import getMovieById from '@/actions/getMovieById';
-import ReturnButton from '@/components/Buttons/ReturnButton';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import { useRouter, useParams } from 'next/navigation';
+import useMovie from '@/hooks/useMovie';
 
-interface IParams {
-    movieId: string;
-}
+const Watch = () => {
+    const router = useRouter();
+    const params = useParams();
+    const { movieId } = params;
 
-const Watch = async ({ params }: { params: IParams }) => {
-    const movieData = await getMovieById(params.movieId);
+    const { data } = useMovie(movieId as string);
 
     return (
         <div className="h-screen w-screen bg-black">
             <nav className="fixed w-full p-4 z-10 flex flex-row items-center gap-8 bg-black bg-opacity-70">
-                <ReturnButton />
+                <ArrowLeftIcon onClick={() => router.push('/')} className="w-4 md:w-10 text-white cursor-pointer hover:opacity-80 transition" />
                 <p className="text-white text-1xl md:text-3xl font-bold">
-                    {movieData ? (
+                    {data ? (
                         <span>
-                            <span className="font-light">Watching:</span> {movieData.title}
+                            <span className="font-light">Watching:</span> {data.title}
                         </span>
                     ) : (
                         'Movie Not Found'
@@ -25,8 +27,8 @@ const Watch = async ({ params }: { params: IParams }) => {
                 </p>
             </nav>
             <div className="h-full w-full flex items-center justify-center">
-                {movieData ? (
-                    <video className="h-full w-full" autoPlay controls src={movieData.videoUrl}></video>
+                {data ? (
+                    <video className="h-full w-full" autoPlay controls src={data.videoUrl}></video>
                 ) : (
                     <div className="text-white text-lg">Movie not found</div>
                 )}
