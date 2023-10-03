@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 import serverAuth from "@/libs/serverAuth";
 
@@ -6,7 +6,7 @@ interface IParams {
 	movieId?: string;
 }
 
-export async function GET({ params }: { params: IParams }) {
+export async function GET(req: NextRequest, { params }: { params: IParams }) {
 	try {
 		await serverAuth();
 
