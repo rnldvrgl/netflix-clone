@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import serverAuth from "@/libs/serverAuth";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
 	try {
 		const { currentUser } = await serverAuth();
 
