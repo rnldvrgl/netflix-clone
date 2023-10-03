@@ -1,46 +1,50 @@
-// "use client"
+import axios from 'axios';
+import React, { useCallback, useMemo } from 'react';
+import { PlusIcon, CheckIcon } from '@heroicons/react/24/outline';
 
-// import axios from 'axios';
-// import React, { useCallback, useEffect, useMemo, useState } from 'react';
-// import { PlusIcon, CheckIcon } from '@heroicons/react/24/outline';
+import useCurrentUser from '@/hooks/useCurrentUser';
+import useFavorites from '@/hooks/useFavorites';
 
-// import getCurrentUser from '@/actions/getCurrentUser';
+interface FavoriteButtonProps {
+    movieId: string;
+}
 
-// interface FavoriteButtonProps {
-//     movieId: string
-// }
+const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
+    const { mutate: mutateFavorites } = useFavorites();
 
-// const FavoriteButton: React.FC<FavoriteButtonProps> = ({ movieId }) => {
-//     const [toggleFavorite, setToggleFavorite] = useState(false);
-//     // const currentUser = getCurrentUser();
+    const { data: currentUser, mutate } = useCurrentUser();
 
-//     const handleToggleFavorite = async () => {
-//         setToggleFavorite(!toggleFavorite);
-//         const val = !toggleFavorite;
-//         const favourited = val ? 0 : 1;
+    const isFavorite = useMemo(() => {
+        const list = currentUser?.favoriteIds || [];
 
-//         const data = await runRatingService(favourited);
-//     });
+        return list.includes(movieId);
+    }, [currentUser, movieId]);
 
-//     const runRatingService = async (favourited) => {
-//         let response;
+    const toggleFavorites = useCallback(async () => {
+        let response;
 
-//         if (favourited) {
-//             response = await axios.delete('/api/favorite', { data: { movieId } });
-//         } else {
-//             response = await axios.post('/api/favorite', { movieId });
-//         }
-//     });
+        if (isFavorite) {
+            response = await axios.delete('/api/favorite', { data: { movieId } });
+        } else {
+            response = await axios.post('/api/favorite', { movieId });
+        }
 
-//     const Icon = toggleFavorite ? CheckIcon : PlusIcon;
+        const updatedFavoriteIds = response?.data?.favoriteIds;
 
-//     useEffect(() => {
-//     }, []);
-//     return (
-//         <div onClick={handleToggleFavorite} className="cursor-pointer group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300">
-//             <Icon className="text-white group-hover/item:text-neutral-300 w-4 lg:w-6" />
-//         </div>
-//     )
-// }
+        mutate({
+            ...currentUser,
+            favoriteIds: updatedFavoriteIds,
+        });
+        mutateFavorites();
+    }, [movieId, isFavorite, currentUser, mutate, mutateFavorites]);
 
-// export default FavoriteButton;
+    const Icon = isFavorite ? CheckIcon : PlusIcon;
+
+    return (
+        <div onClick={toggleFavorites} className="flex items-center justify-center w-6 h-6 transition border-2 border-white rounded-full cursor-pointer group/item lg:w-10 lg:h-10 hover:border-neutral-300">
+            <Icon className="w-4 text-white group-hover/item:text-neutral-300 lg:w-6" />
+        </div>
+    )
+}
+
+export default FavoriteButton;
