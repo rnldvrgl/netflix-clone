@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prismadb from "@/libs/prismadb";
 import serverAuth from "@/libs/serverAuth";
 
-export default async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) {
 	try {
 		const { currentUser } = await serverAuth();
 
