@@ -10,7 +10,6 @@ import Navbar from "@/components/Navbar";
 import InfoModal from '@/components/InfoModal';
 
 export default function Home() {
-  // Just added a comment
   const { data: movies = [] } = useMovieList();
   const { data: favorites = [] } = useFavorites();
   const { isOpen, closeModal } = useInfoModalStore();
